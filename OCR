@@ -1,0 +1,215 @@
+
+Article 1 : Contexte 
+Le présent marché s’inscrit dans la démarche de modernisation et de performance de l’administration, et vise à mettre en place un dispositif de reconnaissance documentaire et d’extraction sémantique des documents numériques reçu par la DGI.
+La DGI dispose d'une GED (Gestion Électronique de Documents) centralisant l'ensemble des actes d’enregistrement et documents connexes reçus. Ces documents sont actuellement stockés au format PDF ou image, sans exploitation automatisée de leur contenu. 
+Les documents incluent principalement des actes de diverses natures (mutations, cessions de parts, contrats de bail, prêts, procurations, mainlevées, actes sous seing privé, …), et les documents connexes (cartes d'identité nationales, attestations administratives de toutes natures...).
+Les modalités opérationnelles et les exigences détaillées sont précisées aux articles suivants.
+Article 2 : Objectifs du projet
+Le projet vise à mettre en place une solution complète de reconnaissance optique de caractères (OCR) et d'extraction sémantique automatisée pour l'ensemble des actes d’enregistrement et documents connexes stockés au niveau de la GED. Cette solution doit permettre :
+•	L'automatisation de la transcription fiable du contenu des documents et sa structuration en formats normalisés conformément à l'article 7, avec préservation des coordonnées spatiales permettant, ultérieurement, le surlignage contextuel dans les interfaces de consultation ;
+•	L'identification automatique de la typologie de chaque document ;
+•	La prise en charge native des spécificités linguistiques en français et en arabe, y compris pour des documents mixtes ;
+•	L'extraction automatique des informations et des entités structurées pertinentes selon la typologie détectée ;
+•	De garantir des délais maîtrisés via des processus standardisés, orchestrés et extensibles ;
+•	De fiabiliser les données exploitées par des mécanismes de validation, d’indicateurs de qualité et de reprise ciblée ;
+•	De renforcer la sécurité, la confidentialité et la traçabilité sur l’ensemble du cycle de traitement ;
+•	D’améliorer l’accessibilité, la recherche et la disponibilité des informations pour les services habilités ;
+•	L’évolution continue du dispositif pour s’adapter aux typologies documentaires et aux besoins métiers.
+Article 3 : Portée du projet
+Le projet englobe :
+1. L'analyse des besoins et la définition des spécifications fonctionnelles et techniques : Étude du système d'information existant, des flux documentaires et des typologies à traiter, et élaboration des spécifications complètes du système incluant l'architecture des pipelines, l'intégration avec la GED, la traçabilité documentaire, et le dimensionnement de l'infrastructure de production. 
+2. Le développement et l'intégration du système : Constitution d'un corpus de vérité terrain, réalisation complète des quatre pipelines de traitement documentaire intégrant le prétraitement, la classification, la reconnaissance OCR avec VLM et l'extraction sémantique à l’aide de LLM/VLM ainsi que le développement des APIs, de l'orchestration et du monitoring.
+3. Les tests et la validation : Validation technique et fonctionnelle du système par des tests exhaustifs couvrant les performances, la conformité aux spécifications et l'atteinte des objectifs de qualité définis dans le Plan d'Assurance Qualité.
+4. Le fine-tuning et l'optimisation des modèles : Adaptation des modèles VLM et LLM au corpus documentaire spécifique sur l'infrastructure de production, avec évaluation rigoureuse et ajustements jusqu'à l'atteinte des performances requises.
+5. Le déploiement en production et le traitement du stock documentaire : Mise en service du dispositif complet en environnement de production et traitement automatisé de l'ensemble du stock documentaire avec contrôle qualité rigoureux et continu. 
+6. Le suivi et la maintenance : Accompagnement continu incluant le support technique, la gestion et la résolution des incidents, l’application de correctifs et optimisations successives, et formation des équipes du Maître d'Ouvrage à l'utilisation et au monitoring du dispositif.
+Article 3 : Périmètre du projet
+Le périmètre du projet couvre :
+Périmètre fonctionnel :
+•	Traitement de l'ensemble des actes d’enregistrement et documents connexes présents dans la GED (stock existant estimé à [X] documents).
+•	Traitement de flux entrants futurs (estimés à 400 000 documents par mois).
+•	Typologies documentaires couvertes : actes (toutes variantes : mutations, cessions de parts, mainlevées, contrats de bail…), cartes d'identité nationales, attestations administratives (tous types), et autres documents connexes identifiés durant la phase de cadrage.
+•	Langues supportées : arabe et français (avec possibilité d’avoir des documents bilingues).
+Périmètre technique :
+•	Intégration complète avec la GED existante.
+•	Développement de 4 pipelines de traitement (prétraitement, classification, OCR, extraction).
+•	Fine-tuning de modèles VLM et LLM sur corpus spécifique.
+•	Déploiement sur infrastructure on-premise (un environnement de développement sera mis à la disposition du titulaire).
+•	Développement d'APIs d'exposition des résultats.
+•	Système complet de traçabilité, d'orchestration, et de monitoring.
+Hors périmètre :
+•	Acquisition du matériel et logiciel de production (à la charge du Maître d'Ouvrage sur spécifications du Titulaire).
+•	Numérisation de documents papier (les documents sont déjà numérisés et présents au niveau de la GED).
+•	Développement d'applications métier exploitant les résultats (seules les APIs sont fournies).
+•	Traitement de typologies documentaires non identifiées durant la phase de cadrage (évolutions ultérieures possibles).
+Article 4 : Transfert de compétences :
+La DGI accorde un intérêt majeur au transfert de compétences. Aussi, le titulaire devra s’engager à mettre en œuvre un transfert de compétences d’un haut niveau. 
+A cet égard, le concurrent doit fournir un plan de transfert de compétences qui détaille la méthode et les procédures qui permettront aux équipes de la Direction Générale des Impôts d’acquérir le savoir-faire nécessaire à la prise en charge du dispositif après son déploiement et de participer à son paramétrage.
+Article 5 : Prestations :
+En fonction du retour d’expérience sur des projets similaires, le soumissionnaire pourra proposer des compléments dans les prestations demandées ou dans la chronologie de mise en œuvre afin de mieux appréhender la définition des différents cas d’usage, et assister les experts métiers et techniques de la DGI à maîtriser le dispositif.
+Prestation 1 : Cadrage et conception
+Préalablement au démarrage de la mission, le prestataire sera appelé à préciser les modalités pratiques de son intervention. Il devra notamment : 
+1.	Présenter son équipe ;
+2.	Proposer une démarche de travail générale de conduite et de suivi du projet, incluant les réunions de pilotage, les points d’avancement et les indicateurs de suivi ;
+3.	Rédiger et faire valider un plan qualité couvrant les différentes prestations demandées et précisant les instances du projet et leurs missions (comité de suivi, comité de pilotage, etc.) ;
+4.	Élaborer une planification détaillée pour l'exécution des trois phases du projet avec jalons intermédiaires ;
+5.	Organiser, en coordination avec le chef de projet DGI, la prise de connaissance par l’équipe projet des différents aspects fonctionnels et techniques du projet.
+Le Titulaire procédera ensuite à l'identification des besoins fonctionnels et techniques en vue de l'élaboration du dispositif cible d'OCR et d'extraction sémantique.
+Cette phase portera principalement sur deux volets :
+1.	Volet Fonctionnel :
+Durant cette étape, le Titulaire devra réaliser, à travers des ateliers en collaboration avec le Maître d'Ouvrage, le cadrage fonctionnel concernant les aspects suivants :
+1.	Inventaire exhaustif des typologies documentaires à traiter avec leurs variantes (actes notariés, cartes d'identité, attestations administratives, et autres documents connexes);
+2.	Définition pour chaque typologie des règles métier d'extraction des informations (entités à extraire, champs obligatoires et optionnels, règles de validation et de cohérence…);
+3.	Définition des contrôles d'entrée et des modalités de pré-traitements d'images (détection/rotation à 0°, redressement, nettoyage…)
+4.	Définition des consignes relatives au traitement des documents bilingues (arabe-français);
+5.	Définition des critères de performance différenciés conformément à l'article 6 ci-dessous ;
+6.	Définition des schémas JSON de structuration et des formats de restitution conformément à l'article 7 ;
+7.	Définition des modalités d'exploitation des données extraites par les systèmes existants ;
+8.	Établissement du plan de nommage et des conventions d'organisation des fichiers générés pour assurer la traçabilité complète et faciliter l’exploitation ;
+9.	Spécification des workflows de traitement et de validation des documents ;
+10.	Définition des fonctionnalités attendues des APIs d'accès aux données.
+
+2.	Volet Technique : 
+Durant cette étape, le Titulaire devra réaliser, à travers des ateliers en collaboration avec le Maître d'Ouvrage, le cadrage technique concernant les aspects suivants :
+1.	Spécification des architectures logicielle et matérielle requises, incluant le choix et le dimensionnement des modèles d'intelligence artificielle (VLM et LLM) sans contrainte de taille, et le dimensionnement de l'infrastructure de production nécessaire pour le fine-tuning et le déploiement en production ;
+2.	Spécification de l'architecture complète du dispositif incluant les quatre pipelines de traitement (prétraitement et conversion, classification documentaire, reconnaissance OCR via modèles de vision-langage avec persistance dans une base de données NoSQL, extraction sémantique via modèles de langage et/ou vision-langage avec persistance des résultats dans une base de données relationnelle);
+3.	Modalités d'intégration avec la GED existante et le système d'information via un système de stockage objet ;
+4.	Définition du système de traçabilité documentaire assurant le lien entre identifiants GED et l'ensemble des fichiers et données générés ;
+5.	Définition des schémas de données (NoSQL et relationnel) et des APIs d'exposition des résultats.
+Prestation 2 : Réalisation et Intégration
+Le Titulaire procède au développement complet sur l'environnement de développement équipé de … GPU H100 NVL mis à disposition par le Maître d'Ouvrage. Cette prestation comprend :
+1. Développement des quatre pipelines de traitement :
+-	Prétraitement et conversion des documents (contrôles d'entrée, conversion PDF vers images, nettoyage, redressement…) ;
+-	Classification automatique des typologies documentaires ;
+-	Reconnaissance OCR via modèles de vision-langage avec persistance dans une base de données NoSQL ;
+-	Post-traitements des résultats d’OCR : Harmonisation des sorties d’OCR en traitant le sens d’écriture, les césures, la ponctuation et les caractères spécifiques ;
+-	Extraction sémantique via modèles linguistiques avec persistance dans une base de données relationnelle ;
+-	Gestion robuste des erreurs et journalisation détaillée pour chaque pipeline.
+2. Intégration système complète :
+-	Intégration avec la GED existante via le système de stockage objet ;
+-	Développement du système de traçabilité documentaire (lien identifiants GED ↔ fichiers générés) ;
+-	Développement des APIs d'exposition des résultats ;
+-	Mise en place de l'orchestration automatisée des traitements ;
+-	Déploiement du système de monitoring et d'observabilité.
+3. Constitution du corpus de vérité terrain :
+-	Récupération et audit de qualité des données structurées existantes saisies dans le système du Maître d'Ouvrage, avec mesure du taux d'erreur et identification des incohérences ;
+-	Génération automatisée d'une première transcription OCR via les modèles pré-entraînés de base ;
+-	Utilisation des données structurées existantes comme base de pré-annotation, après nettoyage automatique des incohérences détectées ;
+-	Validation et correction experte obligatoire par des annotateurs humains qualifiés, garantissant la qualité du corpus de vérité terrain ;
+-	Constitution d'un corpus représentatif structuré et annoté de haute qualité pour l'évaluation des performances et le fine-tuning.
+4. Tests et validation :
+-	Tests unitaires par pipeline et tests d'intégration end-to-end ;
+-	Tests de performance et de charge sur l'environnement de développement ;
+-	Évaluation des performances OCR et extraction sur corpus de vérité terrain, établissant une baseline de référence et vérifiant l'atteinte des critères minimums de l'article 6 ci-dessous ;
+-	Validation de conformité aux spécifications fonctionnelles et techniques 
+N.B : Le passage en Prestation 3 est conditionné à la validation de l'atteinte des critères minimums de l'article 6 ci-dessous.
+Prestation 3 : Fine-tuning, Déploiement en Production et Mise en Qualité
+Cette prestation débute conditionnellement à la mise à disposition effective de l'infrastructure de production acquise par le Maître d'Ouvrage selon les spécifications établies en Phase 1.
+Le Titulaire procède au fine-tuning des modèles, au déploiement en environnement de production et au traitement exhaustif du stock documentaire. Cette prestation comprend :
+1. Configuration de l'environnement de développement et de production :
+-	L’installation et la configuration de toutes les composantes nécessaires permettant de mettre à disposition les environnements de développement et de production
+-	Séparation des deux environnements avec documentation de leurs rôles respectifs et procédures d'accès ;
+-	Configuration des mécanismes de haute disponibilité et de sauvegarde ;
+-	Tests de l'infrastructure de développent et de production.
+2. Fine-tuning et optimisation des modèles :
+-	Fine-tuning des modèles de vision-langage (VLM) sur l'infrastructure de production avec le corpus constitué en Phase 2;
+-	Fine-tuning des modèles linguistiques (LLM) ou de vision-langage (VLM) pour l'extraction sémantique ;
+-	Évaluation rigoureuse des performances post-fine-tuning sur le corpus de test selon les métriques du Plan d'Assurance Qualité conformément aux critères définis à l'article 6;
+-	Ajustements et optimisations jusqu'à l'atteinte des seuils de qualité requis ;
+-	Optimisation des modèles pour l'inférence en production.
+ 
+3. Déploiement en production :
+-	Déploiement des modèles fine-tunés et des pipelines validés en environnement de production ;
+-	Configuration du système d'orchestration et du monitoring en mode production ;
+-	Tests de bout en bout en environnement de production ;
+-	Tests de charge avec volumétries réelles confirmant performance et stabilité du dispositif ;
+-	Validation du fonctionnement complet de la chaîne de traitement.
+4. Traitement du stock documentaire :
+-	Traitement automatisé exhaustif de l'ensemble du stock documentaire de la GED ;
+-	Application complète de la chaîne de traitement (récupération GED, stockage, prétraitement, classification, OCR, extraction, persistances) ;
+-	Gestion de la parallélisation et optimisation des performances.
+5. Contrôle qualité et suivi de production :
+-	Mise en œuvre du dispositif de contrôle qualité défini à l'article 6 ci-dessous ;
+-	Retraitement automatique des documents sous les seuils de qualité ;
+-	Mise en place d'un processus de validation humaine (Human-in-the-Loop) pour les documents à qualité médiocre après échec du retraitement automatique ou pour les documents critiques nécessitant validation experte ; avec interface de validation dédiée facilitant le travail des validateurs humains ;
+-	Utilisation des corrections humaines pour enrichissement du corpus et amélioration continue du système (ajustement des prompts, re-fine-tuning ciblé si volume suffisant);
+-	Production de rapports hebdomadaires d'avancement et de qualité : volumes traités (documents, pages), état d’avancement, incidents et anomalies recensés, actions correctives engagées, prévision de la semaine suivante…
+6. Formation :
+-	Formation des utilisateurs, des administrateurs fonctionnels et des administrateurs techniques ;
+-	Fourniture des Supports de formation.
+Article 5 : Livrables :
+Le Titulaire est tenu d'établir, par prestation au moins, les livrables suivants :
+Prestation 1 : Cadrage et Conception
+Le Titulaire entamera cette prestation par une mission de cadrage et d'analyse, à l'issue de laquelle il établira les livrables suivants :
+1.	Un rapport expliquant la démarche et la méthodologie de travail ;
+2.	Un rapport sur l'organisation du projet et le plan de charge ;
+3.	Un calendrier détaillé des différentes phases avec jalons intermédiaires ;
+4.	Le Plan d'Assurance Qualité.
+5.	Le Plan de transfert de compétences. 
+À l'issue de la prestation, il remettra les livrables suivants :
+6.	Un rapport consolidé de l'analyse de l'existant et du cadrage du projet;
+7.	Le cahier des charges fonctionnel détaillé validé (CCFD);
+8.	Les spécifications techniques détaillées validées ;
+9.	Le document d'architecture détaillée du dispositif (schémas, diagrammes, flux de données…) ;
+10.	Le rapport de recommandation des modèles d'intelligence artificielle (VLM et LLM);
+11.	Le dossier technique d'acquisition des infrastructures matérielles et logicielles.
+Prestation 2 : Réalisation et Intégration
+Les livrables attendus à la suite de cette prestation sont précisés ci-dessous :
+1.	Le code source complet des quatre pipelines de traitement ;
+2.	Le corpus de vérité terrain complet et validé ;
+3.	Le rapport d'évaluation des performances (baseline avec modèles pré-entraînés) ;
+4.	Le dossier de préparation du fine-tuning ;
+5.	La documentation des APIs d'exposition des résultats ;
+Prestation 3 : Fine-tuning, Déploiement en Production et Mise en Qualité
+Les livrables attendus à la suite de cette prestation sont récapitulés ci-dessous :
+1.	Le rapport d'évaluation des performances post-fine-tuning ;
+2.	Les rapports de production hebdomadaires consolidés ;
+3.	Le rapport de qualité global du traitement du stock documentaire ;
+4.	La documentation complète du dispositif couvrant les aspects d'exploitation, d'utilisation, techniques, de sécurité et de conformité ;
+5.	Le rapport des tests de performance et de charge ;
+6.	Les supports de formation.
+Article 6 : Critères de Performance et Qualité
+6.1.	Critères minimums garantis
+Le Titulaire s'engage contractuellement sur les critères minimums suivants, mesurés sur l'ensemble du corpus traité :
+- CER (Character Error Rate) : ≤ 5%
+- WER (Word Error Rate) : ≤ 8%
+- Précision de localisation spatiale : ≤ 10 pixels
+- Taux de pages traitées : ≥ 98%
+- Taux de documents traitables : ≥ 95%
+Ces seuils constituent des obligations de résultat.
+6.2.	Affinement des critères
+Les critères seront affinés et différenciés durant la Prestation 1 selon la langue, l'état de conservation, le type de document et la qualité de numérisation. Cette différenciation sera établie sur la base d'un échantillon représentatif et de tests baseline, puis formalisée dans le Cahier des Charges Fonctionnel Détaillé (CCFD). Les critères affinés devront permettre d'atteindre ou de dépasser les minimums globaux de l'article 6.1.
+ 
+6.3.	Documents non-traitables
+Sont considérés comme non-traitables (≤ 5% du stock) :
+- Documents avec > 40% de surface illisible
+- Résolution < 150 dpi
+- Pages vierges (< 10 mots)
+
+6.4.	Contrôle qualité en production
+Durant le traitement du stock (Prestation 3) :
+- Échantillonnage hebdomadaire : 2% du volume traité
+- Mesure des métriques sur échantillon
+- Rapports hebdomadaires avec conformité aux critères minimums (art. 6.1)
+
+En cas de non-conformité aux critères minimums pendant 2 semaines consécutives, le traitement sera suspendu jusqu'à mise en œuvre d'actions correctives validées. Les documents traités en période de non-conformité seront retraités sans surcoût.
+6.5.	Extraction sémantique
+Objectifs minimums (à valider en Phase 1) :
+- Précision : ≥ 90%
+- Rappel : ≥ 85%
+- F1-Score : ≥ 87%
+Article 7 : Formats et Structuration des Données
+La solution restituera les résultats OCR au format JSON structuré, s'inspirant dans l'esprit des standards internationaux METS/ALTO pour garantir qualité, interopérabilité et pérennisation, tout en privilégiant un format moderne adapté aux architectures actuelles.
+7.1. Format principal : JSON structuré
+Le choix du format JSON offre légèreté, facilité d'exploitation et compatibilité native avec les APIs et les systèmes d'information modernes. Les résultats OCR préserveront la hiérarchie documentaire complète (Document, Page, Région, Paragraphe, Ligne, Mot) avec enregistrement des coordonnées spatiales précises (bounding boxes au format { x, y, width, height }) à chaque niveau, de l'ordre de lecture logique, de la direction du texte (LTR pour français, RTL pour arabe), et des scores de confiance par élément.
+7.2. Métadonnées
+Les métadonnées accompagnant chaque document incluront les informations descriptives (identifiant GED, typologie documentaire, langue détectée), techniques (modèle OCR utilisé, paramètres de traitement, caractéristiques de l'image source) et de qualité (scores de confiance globaux et détaillés, indicateurs CER/WER estimés, alertes éventuelles).
+
+
+
+7.3. Formats complémentaires
+En complément du JSON structuré, le système générera le texte intégral en Markdown enrichi préservant la structure logique (titres, paragraphes, listes, emphases) et optionnellement des PDF OCRisés avec couche texte invisible permettant la recherche dans les lecteurs PDF standards.
+7.4. Organisation des fichiers
+Le plan de nommage des fichiers et l'organisation de l'arborescence seront définis en Phase 1 pour assurer la traçabilité complète entre document source GED, images traitées, résultats OCR, texte intégral, métadonnées et résultats d'extraction sémantique, tout en facilitant la navigation, l'exploitation automatisée et la reprise sur incident.
+
+NB : Les spécifications techniques détaillées des schémas JSON (structure exacte, types de données, champs obligatoires et optionnels, nomenclature) seront établies durant la Prestation 1 avec des exemples concrets pour chaque typologie documentaire, et formalisées dans le Cahier des Charges Fonctionnel Détaillé (CCFD).
