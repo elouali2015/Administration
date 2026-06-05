@@ -1,0 +1,36 @@
+# Imports corrigés 2024
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
+from langchain_ollama import OllamaEmbeddings          # ← nouveau package
+from langchain_ollama import OllamaLLM                 # ← nouveau package
+from langchain.chains import RetrievalQA
+
+# 1. Charger le PDF
+loader = PyPDFLoader("CGI_2024.pdf")
+docs = loader.load()
+
+# 2. Découper en chunks
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=100
+)
+chunks = splitter.split_documents(docs)
+
+# 3. Embeddings + Vector DB
+embeddings = OllamaEmbeddings(model="nomic-embed-text")
+vectordb = Chroma.from_documents(chunks, embeddings)
+
+# 4. LLM + chaîne RAG
+llm = OllamaLLM(model="mistral")
+
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=vectordb.as_retriever(search_kwargs={"k": 5}),
+    return_source_documents=True
+)
+
+# 5. Question test
+question = "Quel est le taux d'IS pour une PME ?"
+reponse = qa_chain.invoke(question)
+print(reponse['result'])
