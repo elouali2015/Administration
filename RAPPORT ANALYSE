@@ -1,0 +1,167 @@
+
+
+# ===================================
+
+
+
+r"""
+Rassemble plusieurs canvas Excel (canvas_<IF>_<annee>.xlsx) dans UN seul fichier,
+les blocs étant empilés les uns sous les autres, avec une colonne ID_annee = IF_Exercice.
+
+Usage :
+  1) Modifier DOSSIER_ENTREE / FICHIER_SORTIE ci-dessous puis lancer :  python consolider_canvas.py
+  2) Ou en ligne de commande (prioritaire sur les valeurs ci-dessous) :
+        python consolider_canvas.py DOSSIER -o sortie.xlsx
+  3) Ou depuis un autre script :
+        from consolider_canvas import consolider
+        consolider(r"C:\mon\dossier", r"C:\mon\dossier\resultat.xlsx")
+
+Dépendances : pip install pandas openpyxl
+"""
+import argparse
+import re
+import sys
+from pathlib import Path
+
+import pandas as pd
+from openpyxl.styles import Alignment, Font, PatternFill
+
+# ====== PARAMETRES A MODIFIER ======
+DOSSIER_ENTREE = r"C:\Users\pc\Downloads\Nouveau dossier (2)"   # dossier (ou liste de dossiers/fichiers)
+FICHIER_SORTIE = r"C:\Users\pc\Downloads\Nouveau dossier (2)\canvas_consolide.xlsx"
+MOTIF_FICHIERS = "canvas_*.xlsx"
+# ===================================
+
+
+COL_ID = "ID_annee"
+COLS_A_SUPPRIMER = ["ID_annee", "fichier_source"]  # utilisées en interne, absentes du fichier final
+LIGNES_TOTAL = {"acompte_2_a_verser", "acompte_3_a_verser", "acompte_4_a_verser", "acompte_regul_a_verser"}
+COLS_SANS_SEPARATEUR = {"IF", "Exercice"}  # pas de format nombre
+FORMAT_NOMBRE = "#,##0"      # séparateur de milliers + 2 décimales
+COULEUR_FOND_TITRES = "1F4E9E"  # fond bleu (hex RGB)
+COULEUR_TEXTE_TITRES = "FFFFFF" # écriture blanche
+
+
+def lire_canvas(chemin: Path) -> pd.DataFrame:
+    df = pd.read_excel(chemin, sheet_name=0)
+
+    # Un bloc commence à chaque ligne "IS" de la colonne IS_CM_AC
+    # (les lignes IS / CM / Impot du précèdent la ligne qui porte IF et Exercice).
+    debut_bloc = df["IS_CM_AC"].astype(str).str.strip().eq("IS")
+    bloc = debut_bloc.cumsum()
+    if bloc.max() == 0:  # pas de marqueur "IS" : tout le fichier = un seul bloc
+        bloc = pd.Series(1, index=df.index)
+
+    # IF et Exercice : première valeur non vide du bloc, répétée sur toutes ses lignes
+    for col in ("IF", "Exercice"):
+        df[col] = df.groupby(bloc)[col].transform(
+            lambda s: s.dropna().iloc[0] if s.notna().any() else pd.NA
+        )
+
+    # Secours : IF / année lus dans le nom du fichier (canvas_<IF>_<annee>.xlsx)
+    m = re.search(r"canvas_(\d+)_(\d{4})", chemin.stem)
+    if m:
+        df["IF"] = df["IF"].fillna(int(m.group(1)))
+        df["Exercice"] = df["Exercice"].fillna(int(m.group(2)))
+
+    df["IF"] = df["IF"].astype("Int64")
+    df["Exercice"] = df["Exercice"].astype("Int64")
+    df.insert(0, COL_ID, df["IF"].astype(str) + "_" + df["Exercice"].astype(str))
+    df["fichier_source"] = chemin.name
+    return df
+
+
+def lister_fichiers(entrees, sortie: Path):
+    fichiers = []
+    for e in entrees:
+        p = Path(e)
+        if p.is_dir():
+            fichiers += sorted(p.glob(MOTIF_FICHIERS))
+        elif p.is_file():
+            fichiers.append(p)
+    # ne jamais relire le fichier de sortie
+    return [f for f in fichiers if f.resolve() != sortie.resolve() and not f.name.startswith("~$")]
+
+
+def consolider(entrees=DOSSIER_ENTREE, sortie=FICHIER_SORTIE):
+    if isinstance(entrees, (str, Path)):
+        entrees = [entrees]
+    sortie = Path(sortie)
+    fichiers = lister_fichiers(entrees, sortie)
+    if not fichiers:
+        sys.exit("Aucun fichier trouvé (vérifiez DOSSIER_ENTREE).")
+
+    frames = []
+    for f in fichiers:
+        d = lire_canvas(f)
+        print(f"{f.name} : {len(d)} lignes, ID = {d[COL_ID].dropna().unique().tolist()}")
+        frames.append(d)
+
+    # Empilement : tous les blocs les uns sous les autres, regroupés par ID_annee
+    final = pd.concat(frames, ignore_index=True)
+    nb_id = final[COL_ID].nunique()
+    final = final.sort_values(COL_ID, kind="stable").reset_index(drop=True)
+
+    # Une ligne vide entre chaque ID_annee
+    morceaux = []
+    for _, g in final.groupby(COL_ID, sort=False):
+        if morceaux:
+            morceaux.append(pd.DataFrame([[pd.NA] * len(final.columns)], columns=final.columns))
+        g = g.copy()
+        g.loc[g.index[1:], "IF"] = pd.NA   # IF affiché une seule fois par bloc
+        morceaux.append(g)
+    final = pd.concat(morceaux, ignore_index=True).drop(columns=COLS_A_SUPPRIMER)
+
+    sortie.parent.mkdir(parents=True, exist_ok=True)
+    with pd.ExcelWriter(sortie, engine="openpyxl") as xw:
+        final.to_excel(xw, sheet_name="Consolide", index=False)
+        ws = xw.sheets["Consolide"]
+        ws.freeze_panes = "A2"
+        # TOTAL_INSUFISANCE = INSUFISANCE + MAJORATION (formule Excel) sur les lignes acompte 2/3/4/regul
+        ent = {c.value: c.column_letter for c in ws[1]}
+        L_ins, L_maj, L_tot, L_typ = (ent["INSUFISANCE"], ent["MAJORATION"],
+                                      ent["TOTAL_INSUFISANCE"], ent["IS_CM_AC"])
+        for r in range(2, ws.max_row + 1):
+            if ws[f"{L_typ}{r}"].value in LIGNES_TOTAL:
+                ws[f"{L_tot}{r}"] = f"={L_ins}{r}+{L_maj}{r}"
+        # Titres : gras, centrés, bleus
+        for c in ws[1]:
+            c.font = Font(bold=True, color=COULEUR_TEXTE_TITRES)
+            c.fill = PatternFill("solid", start_color=COULEUR_FOND_TITRES)
+            c.alignment = Alignment(horizontal="center", vertical="center", wrap_text=False)
+        # Chiffres : séparateurs de milliers + décimales
+        for col in ws.iter_cols(min_row=2):
+            if ws.cell(row=1, column=col[0].column).value in COLS_SANS_SEPARATEUR:
+                continue
+            for c in col:
+                if isinstance(c.value, (int, float)) or str(c.value).startswith("="):
+                    c.number_format = FORMAT_NOMBRE
+        # Cellules centrées + largeur de colonne adaptée au contenu (sans plafond)
+        for col in ws.columns:
+            larg = 0
+            for c in col:
+                c.alignment = Alignment(horizontal="center", vertical="center")
+                v = c.value
+                if v is None:
+                    continue
+                if str(v).startswith("="):
+                    v = 0.0
+                txt = f"{v:,.2f}" if isinstance(v, float) or (
+                    isinstance(v, int) and c.number_format == FORMAT_NOMBRE) else str(v)
+                larg = max(larg, len(txt) + (3 if c.row == 1 else 0))  # titres en gras : marge
+            ws.column_dimensions[col[0].column_letter].width = larg + 4
+
+    print(f"\nOK -> {sortie}  ({len(final)} lignes, {nb_id} ID_annee)")
+    return final
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+    ap.add_argument("entrees", nargs="*", help="dossier(s) ou fichier(s) .xlsx (sinon DOSSIER_ENTREE)")
+    ap.add_argument("-o", "--sortie", default=FICHIER_SORTIE)
+    args = ap.parse_args()
+    consolider(args.entrees or DOSSIER_ENTREE, args.sortie)
+
+
+if __name__ == "__main__":
+    main()
